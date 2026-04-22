@@ -1,0 +1,164 @@
+.root {
+  padding: 24px 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.objectNameInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  outline: none;
+  color: var(--text);
+  font-size: 30px;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.04em;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.objectNameInput:focus {
+  border-bottom-color: var(--accent);
+}
+
+@media print {
+  .objectNameInput {
+    border-bottom: none !important;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+.btnSave {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+}
+
+.btnPrint {
+  background: color-mix(in srgb, var(--accent-dim) 20%, transparent);
+  border: 1px solid var(--accent);
+  color: var(--accent-light);
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+}
+
+/* ── Stats grid ──────────────────────────────────────────── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* ── Finish card ─────────────────────────────────────────── */
+.finishCard {
+  background: linear-gradient(135deg, var(--panel), var(--grad-bg));
+  border: 1px solid var(--accent-dim);
+  border-radius: 6px;
+  padding: 14px 18px;
+  text-align: center;
+}
+
+.finishLabel {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--accent-dim);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.finishDate {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+/* ── Progress card ───────────────────────────────────────── */
+.progressCard {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.progressLabel {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.progressPct {
+  font-family: 'DM Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.colorRed    { color: #e05050; }
+.colorAccent { color: var(--accent); }
+.colorGood   { color: var(--good); }
+
+.progressTrack {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.fillRed    { background: linear-gradient(90deg, #e0505088, #e05050); }
+.fillAccent { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 53%, transparent), var(--accent)); }
+.fillGood   { background: linear-gradient(90deg, color-mix(in srgb, var(--good) 53%, transparent), var(--good)); }
+
+/* ── Gantt panel ─────────────────────────────────────────── */
+.ganttPanel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.ganttTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+}
