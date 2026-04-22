@@ -73,6 +73,7 @@ export function Sidebar() {
         alert('Помилка при читанні файлу!');
       }
     };
+    reader.readAsText(file);
     e.target.value = '';
   };
 

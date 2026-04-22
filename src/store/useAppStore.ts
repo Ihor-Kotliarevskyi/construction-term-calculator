@@ -9,23 +9,7 @@ interface PersistedV0 {
   works?: Array<Omit<Work, 'contractor'> & { contractor?: string }>;
 }
 
-const DEFAULT_WORKS: Work[] = [
-  {
-    id: 1,
-    workName: 'Монолітні роботи',
-    unit: 'м³',
-    totalVol: 4000,
-    doneVol: 1400,
-    mode: 'history',
-    weeksWorked: 18,
-    manualRate: 7.8,
-    brigades: 2,
-    plannedStartDate: '',
-    contractor: '',
-  },
-];
-
-const DEFAULT_PROJECTS: Project[] = [{ id: 1, name: "Новий об'єкт", works: DEFAULT_WORKS }];
+const DEFAULT_PROJECTS: Project[] = [{ id: 1, name: "Новий об'єкт", works: [] }];
 
 interface AppState {
   theme: ThemeName;
