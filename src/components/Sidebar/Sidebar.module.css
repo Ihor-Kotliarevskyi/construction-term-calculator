@@ -173,10 +173,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: block;
+  width: 100%;
+}
+
+.navItem:nth-child(even) {
+  background: var(--border-t20);
+}
+
+.navItem:hover {
+  background: var(--border-t27);
 }
 
 .navItem.navItemActive {
-  background: color-mix(in srgb, var(--accent-dim) 27%, transparent);
+  background: var(--accent-t20) !important;
   color: var(--accent-light);
   font-weight: 600;
 }
@@ -253,4 +263,103 @@
 
 .fileInput {
   display: none;
+}
+
+/* ── Modal ───────────────────────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.modalTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.formGroup select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px;
+  border-radius: 6px;
+  outline: none;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.btnCancel {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnCancel:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+.btnConfirm {
+  flex: 2;
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btnConfirm:hover {
+  opacity: 0.9;
+}
+
+.btnConfirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

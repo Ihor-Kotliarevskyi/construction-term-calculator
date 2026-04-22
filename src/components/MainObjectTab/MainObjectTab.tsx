@@ -1,15 +1,13 @@
 import { useMemo } from 'react';
-import html2canvas from 'html2canvas';
 import { useAppStore, useActiveProject } from '../../store/useAppStore';
 import { calculateWork } from '../../utils/calculations';
 import { fmt } from '../../utils/dateUtils';
-import { THEME_BG } from '../../constants';
 import { StatCard } from '../ui/StatCard';
 import { GanttChart } from '../GanttChart/GanttChart';
 import styles from './MainObjectTab.module.css';
 
 export function MainObjectTab() {
-  const { theme, activeProjectId, activeWorkId, renameProject } = useAppStore();
+  const { activeProjectId, activeWorkId, renameProject } = useAppStore();
   const activeProject = useActiveProject();
   const works = activeProject?.works ?? [];
 
@@ -64,42 +62,21 @@ export function MainObjectTab() {
         : styles.fillGood;
 
   const projectName = activeProject?.name ?? '';
-
-  const handlePrint = () => window.print();
-
-  const handleSaveImage = () => {
-    const el = document.getElementById('main-print-area');
-    if (!el) return;
-    html2canvas(el, { backgroundColor: THEME_BG[theme] }).then((canvas) => {
-      const link = document.createElement('a');
-      link.download = `${projectName || 'project'}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
-    });
-  };
-
   const hasContractors = works.some((w) => w.contractor);
 
   return (
     <div id="main-print-area" className={styles.root}>
-      <div className={styles.header}>
-        <input
-          className={styles.objectNameInput}
-          value={projectName}
-          onChange={(e) => renameProject(activeProjectId, e.target.value)}
-          placeholder="Введіть назву об'єкта..."
-        />
-        <div className={`${styles.actions} no-print`}>
-          <button onClick={handleSaveImage} className={styles.btnSave}>
-            💾 Зберегти PNG
-          </button>
-          <button onClick={handlePrint} className={styles.btnPrint}>
-            🖨 Друк
-          </button>
-        </div>
-      </div>
-
       <div className={styles.statsGrid}>
+        <div className={styles.progressCard} style={{ padding: '6px 14px' }}>
+          <div className={styles.finishLabel} style={{ textAlign: 'left', marginBottom: 2 }}>Об&apos;єкт</div>
+          <input
+            className={styles.objectNameInput}
+            value={projectName}
+            onChange={(e) => renameProject(activeProjectId, e.target.value)}
+            placeholder="Назва..."
+          />
+        </div>
+
         <StatCard label="Всього робіт" value={works.length} small />
 
         <div className={styles.finishCard}>

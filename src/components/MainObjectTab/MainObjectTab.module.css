@@ -1,5 +1,5 @@
 .root {
-  padding: 24px 40px;
+  padding: 16px 40px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -9,21 +9,23 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .objectNameInput {
-  flex: 1;
   background: transparent;
   border: none;
   border-bottom: 1px solid transparent;
   outline: none;
-  color: var(--text);
-  font-size: 30px;
-  font-family: 'Bebas Neue', sans-serif;
-  letter-spacing: 0.04em;
+  color: var(--accent-light);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  padding: 0;
   width: 100%;
   transition: border-color 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .objectNameInput:focus {
@@ -54,8 +56,13 @@
   font-size: 14px;
 }
 
+.btnSave:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btnPrint {
-  background: color-mix(in srgb, var(--accent-dim) 20%, transparent);
+  background: var(--accent-dim-t20);
   border: 1px solid var(--accent);
   color: var(--accent-light);
   padding: 8px 14px;
@@ -65,12 +72,134 @@
   font-size: 14px;
 }
 
+.exportSettings {
+  display: flex;
+  gap: 4px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.settingSelect {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+  padding: 0 4px;
+}
+
+.settingSelect:hover {
+  color: var(--text);
+}
+
+/* ── Modal ───────────────────────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.modalTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.formGroup select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px;
+  border-radius: 6px;
+  outline: none;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.btnCancel {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnCancel:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+.btnConfirm {
+  flex: 2;
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btnConfirm:hover {
+  opacity: 0.9;
+}
+
+.btnConfirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* ── Stats grid ──────────────────────────────────────────── */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 /* ── Finish card ─────────────────────────────────────────── */
@@ -78,7 +207,7 @@
   background: linear-gradient(135deg, var(--panel), var(--grad-bg));
   border: 1px solid var(--accent-dim);
   border-radius: 6px;
-  padding: 14px 18px;
+  padding: 8px 18px;
   text-align: center;
 }
 
@@ -103,7 +232,7 @@
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 14px 18px;
+  padding: 8px 18px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -145,15 +274,15 @@
 }
 
 .fillRed    { background: linear-gradient(90deg, #e0505088, #e05050); }
-.fillAccent { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 53%, transparent), var(--accent)); }
-.fillGood   { background: linear-gradient(90deg, color-mix(in srgb, var(--good) 53%, transparent), var(--good)); }
+.fillAccent { background: linear-gradient(90deg, var(--accent-t50), var(--accent)); }
+.fillGood   { background: linear-gradient(90deg, var(--good-t50), var(--good)); }
 
 /* ── Gantt panel ─────────────────────────────────────────── */
 .ganttPanel {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 20px;
+  padding: 16px 20px;
 }
 
 .ganttTitle {

@@ -1,8 +1,13 @@
+import { useState } from 'react';
+import html2canvas from 'html2canvas';
 import { useAppStore } from '../../store/useAppStore';
 import { TODAY } from '../../constants';
 import { fmt } from '../../utils/dateUtils';
 import type { ProjectData } from '../../types';
+import { THEME_BG } from '../../constants';
 import styles from './Sidebar.module.css';
+
+type ExportFormat = 'image/png' | 'image/jpeg' | 'image/webp';
 
 export function Sidebar() {
   const {
@@ -20,7 +25,13 @@ export function Sidebar() {
     importData,
   } = useAppStore();
 
+  const [isExporting, setIsExporting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [exportFormat, setExportFormat] = useState<ExportFormat>('image/png');
+  const [exportScale, setExportScale] = useState(2);
+
   const activeProject = projects.find((p) => p.id === activeProjectId);
+  const projectName = activeProject?.name ?? '';
   const works = activeProject?.works ?? [];
 
   // Group works by contractor for nav display
@@ -62,8 +73,68 @@ export function Sidebar() {
         alert('Помилка при читанні файлу!');
       }
     };
-    reader.readAsText(file);
     e.target.value = '';
+  };
+
+  const handlePrint = () => window.print();
+
+  const handleSaveImage = () => {
+    const el = document.getElementById('main-print-area');
+    if (!el || isExporting) return;
+
+    setIsExporting(true);
+    setIsModalOpen(false);
+
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    window.scrollTo(0, 0);
+
+    setTimeout(() => {
+      const fullWidth = el.scrollWidth;
+      const fullHeight = el.scrollHeight;
+
+      html2canvas(el, {
+        backgroundColor: THEME_BG[theme],
+        scale: exportScale,
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+        width: fullWidth,
+        height: fullHeight,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: fullWidth,
+        windowHeight: fullHeight,
+        ignoreElements: (element) => element.classList?.contains('no-print'),
+        onclone: (clonedDoc) => {
+          const clonedEl = clonedDoc.getElementById('main-print-area');
+          if (clonedEl) {
+            clonedEl.style.overflow = 'visible';
+            clonedEl.style.height = 'auto';
+            clonedEl.style.width = `${fullWidth}px`;
+            clonedEl.style.maxWidth = 'none';
+            if (clonedEl.parentElement) {
+              clonedEl.parentElement.style.overflow = 'visible';
+            }
+          }
+        },
+      })
+        .then((canvas) => {
+          const link = document.createElement('a');
+          const ext = exportFormat.split('/')[1];
+          link.download = `${projectName || 'project'}.${ext}`;
+          link.href = canvas.toDataURL(exportFormat, 0.95);
+          link.click();
+        })
+        .catch((err) => {
+          console.error('Export failed:', err);
+          alert('Помилка при експорті зображення');
+        })
+        .finally(() => {
+          window.scrollTo(scrollX, scrollY);
+          setIsExporting(false);
+        });
+    }, 100);
   };
 
   return (
@@ -177,7 +248,56 @@ export function Sidebar() {
             <input type="file" accept=".json" onChange={handleImport} className={styles.fileInput} />
           </label>
         </div>
+        <div className={styles.ioRow} style={{ marginTop: 8 }}>
+          <button className={styles.ioBtn} onClick={() => setIsModalOpen(true)} disabled={isExporting}>
+            {isExporting ? '⌛...' : '🖼️ Картинка'}
+          </button>
+          <button className={styles.ioBtn} onClick={handlePrint}>
+            🖨️ Друк
+          </button>
+        </div>
       </div>
+
+      {isModalOpen && (
+        <div className={styles.modalOverlay} onClick={() => setIsModalOpen(false)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalTitle}>Налаштування експорту</div>
+            
+            <div className={styles.formGroup}>
+              <label>Формат файлу</label>
+              <select
+                value={exportFormat}
+                onChange={(e) => setExportFormat(e.target.value as ExportFormat)}
+              >
+                <option value="image/png">PNG (Без втрат)</option>
+                <option value="image/jpeg">JPEG (Фото)</option>
+                <option value="image/webp">WEBP (Компактний)</option>
+              </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Масштаб (Якість)</label>
+              <select
+                value={exportScale}
+                onChange={(e) => setExportScale(Number(e.target.value))}
+              >
+                <option value="1">1x (Стандарт)</option>
+                <option value="2">2x (High Definition)</option>
+                <option value="3">3x (Ultra HD)</option>
+              </select>
+            </div>
+
+            <div className={styles.modalActions}>
+              <button className={styles.btnCancel} onClick={() => setIsModalOpen(false)}>
+                Скасувати
+              </button>
+              <button className={styles.btnConfirm} onClick={handleSaveImage}>
+                Зберегти
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
 }
