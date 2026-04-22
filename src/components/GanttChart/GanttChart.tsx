@@ -141,7 +141,7 @@ export function GanttChart({ works, calculations, activeWorkId, groupByContracto
       <div className={styles.body}>
         {ticks.map((t, i) => (
           <div
-            key={`g${i}`}
+            key={`grid-${t.pct}`}
             className={t.isMonth ? styles.gridLine : styles.gridLineSub}
             style={{ left: `${t.pct}%` }}
           />
