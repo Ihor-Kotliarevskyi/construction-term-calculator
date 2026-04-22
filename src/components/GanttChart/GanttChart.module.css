@@ -1,0 +1,201 @@
+.root {
+  padding: 4px 0 8px;
+}
+
+.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 40px;
+}
+
+/* ── Timeline header ─────────────────────────────────────── */
+.header {
+  position: relative;
+  height: 26px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tick {
+  position: absolute;
+  font-size: 12px;
+  color: var(--muted);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  bottom: 4px;
+  font-weight: 400;
+}
+
+.tick.tickMonth {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.todayHeaderMark {
+  position: absolute;
+  bottom: 0;
+  width: 2px;
+  height: 6px;
+  background: var(--today);
+}
+
+/* ── Chart body ──────────────────────────────────────────── */
+.body {
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.gridLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.gridLineSub {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: color-mix(in srgb, var(--border) 20%, transparent);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.todayLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--today);
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Work row ────────────────────────────────────────────── */
+.workRow {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  transition: opacity 0.2s;
+}
+
+.workRowDimmed {
+  opacity: 0.6;
+}
+
+.workLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.workName {
+  background: var(--panel);
+  padding: 0 4px;
+  border-radius: 3px;
+  margin: 0 -4px;
+}
+
+.workName.workNameActive {
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+.workVol {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.workDates {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--panel);
+  padding: 0 4px;
+  border-radius: 3px;
+  margin: 0 -4px;
+}
+
+/* ── Bars ────────────────────────────────────────────────── */
+.barTrack {
+  position: relative;
+  height: 20px;
+  background: color-mix(in srgb, var(--border) 27%, transparent);
+  border-radius: 4px;
+}
+
+.bar {
+  position: absolute;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent) 33%, transparent),
+    color-mix(in srgb, var(--accent) 53%, transparent)
+  );
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar.barActive {
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.barDone {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--good) 50%, transparent),
+    color-mix(in srgb, var(--good) 73%, transparent)
+  );
+}
+
+/* ── Legend ──────────────────────────────────────────────── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch {
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.swatchDone {
+  background: color-mix(in srgb, var(--good) 73%, transparent);
+}
+
+.swatchPlan {
+  background: color-mix(in srgb, var(--accent) 53%, transparent);
+}
+
+.swatchToday {
+  width: 2px;
+  height: 14px;
+  background: var(--today);
+}

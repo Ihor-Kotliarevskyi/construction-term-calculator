@@ -1,0 +1,262 @@
+.root {
+  padding: 24px 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 26px;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.deleteBtn {
+  background: transparent;
+  border: none;
+  color: #e05050;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Main 2-col grid ─────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(250px, 1fr) minmax(270px, 1.3fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+/* ── Inputs panel ────────────────────────────────────────── */
+.inputsPanel {
+  background: var(--panel);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+}
+
+.sectionLabel {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--accent-dim);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+}
+
+.textInput {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  padding: 9px 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.dateInput {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 16px;
+  padding: 8px 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.modeSelector {
+  display: flex;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.modeBtn {
+  flex: 1;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.modeBtn.modeBtnBorder {
+  border-right: 1px solid var(--border);
+}
+
+.modeBtn.modeBtnActive {
+  background: color-mix(in srgb, var(--accent-dim) 27%, transparent);
+  color: var(--accent-light);
+}
+
+.rateBox {
+  font-size: 13px;
+  color: var(--muted);
+  padding: 7px 10px;
+  background: var(--rate-bg);
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+.rateValue {
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── Results panel ───────────────────────────────────────── */
+.resultsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progressCard {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 18px;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.progressLabel {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.progressPct {
+  font-family: 'DM Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.colorRed   { color: #e05050; }
+.colorAccent { color: var(--accent); }
+.colorGood  { color: var(--good); }
+
+.progressTrack {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s;
+}
+
+.fillRed    { background: linear-gradient(90deg, #e0505088, #e05050); }
+.fillAccent { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 53%, transparent), var(--accent)); }
+.fillGood   { background: linear-gradient(90deg, color-mix(in srgb, var(--good) 53%, transparent), var(--good)); }
+
+.progressMeta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ── Completion card ─────────────────────────────────────── */
+.completionCard {
+  background: linear-gradient(135deg, var(--panel), var(--grad-bg));
+  border: 1px solid var(--accent-dim);
+  border-radius: 6px;
+  padding: 14px 18px;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.completionLabel {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--accent-dim);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.completionDate {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.completionMeta {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* ── Gantt panel ─────────────────────────────────────────── */
+.ganttPanel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.ganttTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+}

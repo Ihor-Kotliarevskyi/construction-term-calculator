@@ -1,0 +1,43 @@
+.wrapper {
+  margin-bottom: 14px;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.inputRow {
+  display: flex;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 19px;
+  padding: 9px 12px;
+  width: 0;
+}
+
+.unit {
+  padding: 0 12px;
+  color: var(--muted);
+  font-size: 14px;
+  font-family: 'DM Mono', monospace;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--border);
+  white-space: nowrap;
+}
