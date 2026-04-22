@@ -24,6 +24,13 @@
   --today: #e05050;
   --scrollbar: #d1d5db;
   --scrollbar-hover: #9ca3af;
+  --accent-t20: #d9770633;
+  --accent-t50: #d9770680;
+  --accent-dim-t20: #a06c1033;
+  --good-t50: #16a34a80;
+  --good-t70: #16a34ab3;
+  --border-t20: #d1d5db33;
+  --border-t27: #d1d5db45;
 }
 
 [data-theme='dark'] {
@@ -42,6 +49,13 @@
   --today: #e05050;
   --scrollbar: #333333;
   --scrollbar-hover: #555555;
+  --accent-t20: #e0941833;
+  --accent-t50: #e0941880;
+  --accent-dim-t20: #fcd34d33;
+  --good-t50: #5aab5a80;
+  --good-t70: #5aab5ab3;
+  --border-t20: #2e2e2833;
+  --border-t27: #2e2e2845;
 }
 
 ::-webkit-scrollbar {

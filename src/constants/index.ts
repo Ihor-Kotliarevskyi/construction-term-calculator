@@ -1,6 +1,6 @@
 import type { Unit, ThemeName } from '../types';
 
-export const TODAY = new Date(2026, 3, 22);
+export const TODAY = new Date();
 
 export const UNITS: Unit[] = ['м³', 'м²', 'т', 'шт', 'м', 'комплект', 'грн', '%'];
 

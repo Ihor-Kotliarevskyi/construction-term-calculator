@@ -60,7 +60,7 @@
   top: 0;
   bottom: 0;
   width: 1px;
-  background: color-mix(in srgb, var(--border) 20%, transparent);
+  background: var(--border-t20);
   z-index: 0;
   pointer-events: none;
 }
@@ -135,7 +135,7 @@
 .barTrack {
   position: relative;
   height: 20px;
-  background: color-mix(in srgb, var(--border) 27%, transparent);
+  background: var(--border-t27);
   border-radius: 4px;
 }
 
@@ -143,9 +143,8 @@
   position: absolute;
   height: 100%;
   background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--accent) 33%, transparent),
-    color-mix(in srgb, var(--accent) 53%, transparent)
+    var(--accent-t20),
+    var(--accent-t50)
   );
   border-radius: 4px;
   overflow: hidden;
@@ -158,9 +157,8 @@
 .barDone {
   height: 100%;
   background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--good) 50%, transparent),
-    color-mix(in srgb, var(--good) 73%, transparent)
+    var(--good-t50),
+    var(--good-t70)
   );
 }
 
@@ -205,11 +203,11 @@
 }
 
 .swatchDone {
-  background: color-mix(in srgb, var(--good) 73%, transparent);
+  background: var(--good-t70);
 }
 
 .swatchPlan {
-  background: color-mix(in srgb, var(--accent) 53%, transparent);
+  background: var(--accent-t50);
 }
 
 .swatchToday {
