@@ -8,9 +8,10 @@ interface GanttChartProps {
   works: Work[];
   calculations: Record<number, WorkCalculation>;
   activeWorkId: number | 'main';
+  groupByContractor?: boolean;
 }
 
-export function GanttChart({ works, calculations, activeWorkId }: GanttChartProps) {
+export function GanttChart({ works, calculations, activeWorkId, groupByContractor = false }: GanttChartProps) {
   const { minDate, maxDate, hasValid } = useMemo(() => {
     let minDate = new Date(TODAY);
     let maxDate = addDays(TODAY, 90);
@@ -60,6 +61,66 @@ export function GanttChart({ works, calculations, activeWorkId }: GanttChartProp
 
   const todayPct = ((TODAY.getTime() - minDate.getTime()) / totalMs) * 100;
 
+  // Build flat list of rows: contractor separators + work rows
+  const rows: React.ReactNode[] = [];
+  let prevContractor: string | undefined = undefined;
+
+  works.forEach((work) => {
+    const c = calculations[work.id];
+    if (!c || !c.endDate || c.startDate.getTime() >= c.endDate.getTime()) return;
+
+    // Contractor group separator
+    if (groupByContractor && work.contractor !== prevContractor) {
+      prevContractor = work.contractor;
+      if (work.contractor) {
+        rows.push(
+          <div key={`contractor-${work.contractor}`} className={styles.contractorGroup}>
+            {work.contractor}
+          </div>,
+        );
+      }
+    }
+
+    const startPct = ((c.startDate.getTime() - minDate.getTime()) / totalMs) * 100;
+    const endPct = ((c.endDate.getTime() - minDate.getTime()) / totalMs) * 100;
+    const widthPct = endPct - startPct;
+
+    const workMs = c.endDate.getTime() - c.startDate.getTime();
+    const todayInWork =
+      workMs > 0
+        ? Math.min(100, Math.max(0, ((TODAY.getTime() - c.startDate.getTime()) / workMs) * 100))
+        : 0;
+
+    const isActive = activeWorkId === work.id;
+    const isDimmed = activeWorkId !== 'main' && !isActive;
+
+    rows.push(
+      <div key={work.id} className={`${styles.workRow} ${isDimmed ? styles.workRowDimmed : ''}`}>
+        <div className={styles.workLabel}>
+          <span className={`${styles.workName} ${isActive ? styles.workNameActive : ''}`}>
+            {work.workName}{' '}
+            <span className={styles.workVol}>
+              ({work.totalVol} {work.unit})
+            </span>
+          </span>
+          <span className={styles.workDates}>
+            {fmt(c.startDate)} – {fmt(c.endDate)}
+          </span>
+        </div>
+        <div className={styles.barTrack}>
+          <div
+            className={`${styles.bar} ${isActive ? styles.barActive : ''}`}
+            style={{ left: `${startPct}%`, width: `${widthPct}%` }}
+          >
+            {work.doneVol > 0 && (
+              <div className={styles.barDone} style={{ width: `${todayInWork}%` }} />
+            )}
+          </div>
+        </div>
+      </div>,
+    );
+  });
+
   return (
     <div className={styles.root}>
       <div className={styles.header}>
@@ -89,54 +150,7 @@ export function GanttChart({ works, calculations, activeWorkId }: GanttChartProp
           <div className={styles.todayLine} style={{ left: `${todayPct}%` }} />
         )}
 
-        <div className={styles.rows}>
-          {works.map((work) => {
-            const c = calculations[work.id];
-            if (!c || !c.endDate || c.startDate.getTime() >= c.endDate.getTime()) return null;
-
-            const startPct = ((c.startDate.getTime() - minDate.getTime()) / totalMs) * 100;
-            const endPct = ((c.endDate.getTime() - minDate.getTime()) / totalMs) * 100;
-            const widthPct = endPct - startPct;
-
-            const workMs = c.endDate.getTime() - c.startDate.getTime();
-            const todayInWork =
-              workMs > 0
-                ? Math.min(100, Math.max(0, ((TODAY.getTime() - c.startDate.getTime()) / workMs) * 100))
-                : 0;
-
-            const isActive = activeWorkId === work.id;
-            const isDimmed = activeWorkId !== 'main' && !isActive;
-
-            return (
-              <div
-                key={work.id}
-                className={`${styles.workRow} ${isDimmed ? styles.workRowDimmed : ''}`}
-              >
-                <div className={styles.workLabel}>
-                  <span className={`${styles.workName} ${isActive ? styles.workNameActive : ''}`}>
-                    {work.workName}{' '}
-                    <span className={styles.workVol}>
-                      ({work.totalVol} {work.unit})
-                    </span>
-                  </span>
-                  <span className={styles.workDates}>
-                    {fmt(c.startDate)} – {fmt(c.endDate)}
-                  </span>
-                </div>
-                <div className={styles.barTrack}>
-                  <div
-                    className={`${styles.bar} ${isActive ? styles.barActive : ''}`}
-                    style={{ left: `${startPct}%`, width: `${widthPct}%` }}
-                  >
-                    {work.doneVol > 0 && (
-                      <div className={styles.barDone} style={{ width: `${todayInWork}%` }} />
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <div className={styles.rows}>{rows}</div>
       </div>
 
       <div className={styles.legend}>

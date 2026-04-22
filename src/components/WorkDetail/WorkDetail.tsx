@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAppStore } from '../../store/useAppStore';
+import { useAppStore, useActiveProject } from '../../store/useAppStore';
 import { calculateWork } from '../../utils/calculations';
 import { fmt } from '../../utils/dateUtils';
 import { TODAY, UNITS } from '../../constants';
@@ -14,8 +14,9 @@ interface Props {
 }
 
 export function WorkDetail({ workId }: Props) {
-  const { works, updateWork, removeWork } = useAppStore();
-  const work = works.find((w) => w.id === workId);
+  const { updateWork, removeWork } = useAppStore();
+  const activeProject = useActiveProject();
+  const work = activeProject?.works.find((w) => w.id === workId);
   const calc = useMemo(() => (work ? calculateWork(work) : null), [work]);
 
   if (!work || !calc) return null;
@@ -45,6 +46,16 @@ export function WorkDetail({ workId }: Props) {
               className={styles.textInput}
               value={work.workName}
               onChange={(e) => updateWork(work.id, { workName: e.target.value })}
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label className={styles.fieldLabel}>Підрядник</label>
+            <input
+              className={styles.textInput}
+              value={work.contractor}
+              onChange={(e) => updateWork(work.id, { contractor: e.target.value })}
+              placeholder="Назва підрядника (необов'язково)"
             />
           </div>
 

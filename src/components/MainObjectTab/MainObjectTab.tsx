@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import html2canvas from 'html2canvas';
-import { useAppStore } from '../../store/useAppStore';
+import { useAppStore, useActiveProject } from '../../store/useAppStore';
 import { calculateWork } from '../../utils/calculations';
 import { fmt } from '../../utils/dateUtils';
 import { THEME_BG } from '../../constants';
@@ -9,7 +9,21 @@ import { GanttChart } from '../GanttChart/GanttChart';
 import styles from './MainObjectTab.module.css';
 
 export function MainObjectTab() {
-  const { theme, objectName, works, activeWorkId, setObjectName } = useAppStore();
+  const { theme, activeProjectId, activeWorkId, renameProject } = useAppStore();
+  const activeProject = useActiveProject();
+  const works = activeProject?.works ?? [];
+
+  // Sort works: no contractor first, then alphabetically by contractor
+  const sortedWorks = useMemo(
+    () =>
+      [...works].sort((a, b) => {
+        if (!a.contractor && !b.contractor) return 0;
+        if (!a.contractor) return -1;
+        if (!b.contractor) return 1;
+        return a.contractor.localeCompare(b.contractor, 'uk');
+      }),
+    [works],
+  );
 
   const calculations = useMemo(() => {
     const map: Record<number, ReturnType<typeof calculateWork>> = {};
@@ -49,6 +63,8 @@ export function MainObjectTab() {
         ? styles.fillAccent
         : styles.fillGood;
 
+  const projectName = activeProject?.name ?? '';
+
   const handlePrint = () => window.print();
 
   const handleSaveImage = () => {
@@ -56,19 +72,21 @@ export function MainObjectTab() {
     if (!el) return;
     html2canvas(el, { backgroundColor: THEME_BG[theme] }).then((canvas) => {
       const link = document.createElement('a');
-      link.download = `${objectName}.png`;
+      link.download = `${projectName || 'project'}.png`;
       link.href = canvas.toDataURL();
       link.click();
     });
   };
+
+  const hasContractors = works.some((w) => w.contractor);
 
   return (
     <div id="main-print-area" className={styles.root}>
       <div className={styles.header}>
         <input
           className={styles.objectNameInput}
-          value={objectName}
-          onChange={(e) => setObjectName(e.target.value)}
+          value={projectName}
+          onChange={(e) => renameProject(activeProjectId, e.target.value)}
           placeholder="Введіть назву об'єкта..."
         />
         <div className={`${styles.actions} no-print`}>
@@ -107,7 +125,12 @@ export function MainObjectTab() {
 
       <div className={styles.ganttPanel}>
         <div className={styles.ganttTitle}>Загальний графік виконання</div>
-        <GanttChart works={works} calculations={calculations} activeWorkId={activeWorkId} />
+        <GanttChart
+          works={sortedWorks}
+          calculations={calculations}
+          activeWorkId={activeWorkId}
+          groupByContractor={hasContractors}
+        />
       </div>
     </div>
   );

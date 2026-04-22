@@ -1,4 +1,4 @@
-export type Unit = 'м³' | 'м²' | 'т' | 'шт';
+export type Unit = 'м³' | 'м²' | 'т' | 'шт' | 'м' | 'комплект' | 'грн' | '%';
 export type WorkMode = 'history' | 'manual';
 export type ThemeName = 'light' | 'dark';
 
@@ -13,6 +13,13 @@ export interface Work {
   manualRate: number;
   brigades: number;
   plannedStartDate: string;
+  contractor: string;
+}
+
+export interface Project {
+  id: number;
+  name: string;
+  works: Work[];
 }
 
 export interface WorkCalculation {
@@ -26,6 +33,6 @@ export interface WorkCalculation {
 }
 
 export interface ProjectData {
-  objectName: string;
+  name: string;
   works: Work[];
 }
